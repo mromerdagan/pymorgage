@@ -1,0 +1,29 @@
+#!/usr/bin/python3
+
+import sys
+from amortization import amortization_lines
+
+loan = int(sys.argv[1])
+yearly_interest = float(sys.argv[2]) / 100
+years = int(sys.argv[3])
+
+num_periods = years * 12
+periodic_interest = yearly_interest / 12
+
+
+total_interest = 0
+total_principal = 0
+
+header_format = "{:<5} {:<20} {:<20} {:<20} {:<20}"
+print(header_format.format('#', 'Debt', 'Interest', 'Principal', 'Next'))
+lines = amortization_lines(loan, periodic_interest, num_periods)
+for i, line in enumerate(lines):
+	_, interest, principal, _ = line
+	print("{:<5} {:<20.2f} {:<20.2f} {:<20.2f} {:<20.2f}".format(i+1, *line))
+	total_interest += interest
+	total_principal += principal
+
+print()
+print("Total interest paid: {:.2f}".format(total_interest))
+print("Total principal paid: ", total_principal)
+
